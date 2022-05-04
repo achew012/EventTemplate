@@ -1,0 +1,9 @@
+8
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_398/Steps/EN_Event_0003114	2
+caci:Schemas/Instantiated/cluster_398/Steps/EN_Event_0003121	3
+caci:Schemas/Instantiated/cluster_398/Steps/EN_Event_0005422	4
+caci:Schemas/Instantiated/cluster_398/Steps/EN_Event_0004877	5
+caci:Schemas/Instantiated/cluster_398/Steps/EN_Event_0005577	6
+caci:Schemas/Instantiated/cluster_398/Steps/EN_Event_0002216	7

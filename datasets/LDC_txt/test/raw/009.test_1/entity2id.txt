@@ -1,0 +1,19 @@
+18
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0002010	0
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0014282	1
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0005566	2
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0015531	3
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0000557	4
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0000131	5
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0003526	6
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0007232	7
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0018258	8
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0018934	9
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0010039	10
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0011064	11
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0009396	12
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0008649	13
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0015669	14
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0017866	15
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0022911	16
+caci:Schemas/Instantiated/cluster_27/Entities/EN_Entity_EDL_ENG_0011002	17

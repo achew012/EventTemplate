@@ -1,0 +1,19 @@
+18
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0000346	2
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0001243	3
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0002245	4
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0004352	5
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0004765	6
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0005408	7
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0005692	8
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0005718	9
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0005763	10
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0004927	11
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0000052	12
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0002057	13
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0005132	14
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0005185	15
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0004702	16
+caci:Schemas/Instantiated/cluster_143/Steps/EN_Event_0001599	17

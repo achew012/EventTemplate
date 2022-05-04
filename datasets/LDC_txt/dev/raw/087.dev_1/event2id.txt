@@ -1,0 +1,8 @@
+7
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_107/Steps/EN_Event_0000539	2
+caci:Schemas/Instantiated/cluster_107/Steps/EN_Event_0005353	3
+caci:Schemas/Instantiated/cluster_107/Steps/EN_Event_0001227	4
+caci:Schemas/Instantiated/cluster_107/Steps/EN_Event_0000377	5
+caci:Schemas/Instantiated/cluster_107/Steps/EN_Event_0005212	6

@@ -1,0 +1,19 @@
+18
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0001648	2
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0002166	3
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0002718	4
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0004621	5
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0004698	6
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0005010	7
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000098	8
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000027	9
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000448	10
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000766	11
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000680	12
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0003592	13
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0001542	14
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000874	15
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000582	16
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0001215	17

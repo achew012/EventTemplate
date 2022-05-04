@@ -1,0 +1,9 @@
+8
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_321/Steps/EN_Event_0000487	2
+caci:Schemas/Instantiated/cluster_321/Steps/EN_Event_0001668	3
+caci:Schemas/Instantiated/cluster_321/Steps/EN_Event_0001961	4
+caci:Schemas/Instantiated/cluster_321/Steps/EN_Event_0001175	5
+caci:Schemas/Instantiated/cluster_321/Steps/EN_Event_0000035	6
+caci:Schemas/Instantiated/cluster_321/Steps/EN_Event_0000844	7

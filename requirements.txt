@@ -1,0 +1,17 @@
+boto3
+torch -f https://download.pytorch.org/whl/cu113
+torchvision -f https://download.pytorch.org/whl/cu113
+torchaudio -f https://download.pytorch.org/whl/cu113
+pytorch-lightning
+datasets
+ipdb
+hydra-core
+jsonlines
+scipy
+clearml
+tqdm
+torch-scatter -f https://data.pyg.org/whl/torch-1.11.0+cu115.html
+torch-sparse -f https://data.pyg.org/whl/torch-1.11.0+cu115.html
+torch-cluster -f https://data.pyg.org/whl/torch-1.11.0+cu115.html
+torch-spline-conv -f https://data.pyg.org/whl/torch-1.11.0+cu115.html 
+torch-geometric -f https://data.pyg.org/whl/torch-1.11.0+cu115.html

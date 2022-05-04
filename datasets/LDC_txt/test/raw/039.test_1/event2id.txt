@@ -1,0 +1,10 @@
+9
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000596	2
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0003622	3
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000108	4
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0005078	5
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0000988	6
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0003154	7
+caci:Schemas/Instantiated/cluster_62/Steps/EN_Event_0002437	8

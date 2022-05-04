@@ -1,0 +1,13 @@
+12
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0001004	2
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0000726	3
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0016025	4
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0001788	5
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0005536	6
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0033129	7
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0033662	8
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0018249	9
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0030500	10
+caci:Schemas/Instantiated/cluster_368/Steps/EN_Event_0027163	11

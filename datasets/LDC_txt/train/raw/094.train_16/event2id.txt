@@ -1,0 +1,7 @@
+6
+SOG	0
+EOG	1
+caci:Schemas/Instantiated/cluster_216/Steps/EN_Event_0000437	2
+caci:Schemas/Instantiated/cluster_216/Steps/EN_Event_0000930	3
+caci:Schemas/Instantiated/cluster_216/Steps/EN_Event_0004478	4
+caci:Schemas/Instantiated/cluster_216/Steps/EN_Event_0002502	5

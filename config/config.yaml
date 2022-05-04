@@ -1,0 +1,23 @@
+seed: 1234
+lr: 1e-04
+grad_accum: 1
+grad_ckpt: True
+gpu: 1
+fp16: False
+n_hidden: 16
+emb_dim: 32
+nargs_ratio: [0.2, 0.4, 0.6, 0.8]
+num_epochs: 100
+batch_size: 512
+every_n_epochs: 10
+debug: False
+early_stopping: True
+queue: compute2
+remote: False
+dataset: LDC
+trained_model_path: 
+checkpointing: True
+train: True
+test: True
+
+
