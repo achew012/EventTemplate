@@ -2,4 +2,4 @@
 src/__pycache__/
 outputs/
 __pycache__/
-data/
+datasets/
