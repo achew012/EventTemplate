@@ -15,7 +15,7 @@ from clearml import Task, StorageManager, Dataset as ClearML_Dataset
 from data.data import GraphDataset
 from model.GraphModel import GraphEmbedding
 from torch_geometric.data import DenseDataLoader, DataLoader
-
+#from pytorch_lightning.trainer.supporters import CombinedLoader
 
 Task.force_requirements_env_freeze(
     force=True, requirements_file="requirements.txt")
@@ -52,12 +52,15 @@ def get_dataloader(split_name, cfg) -> DataLoader:
     #     )
     # =============================================================================
     if cfg.dataset == "LDC":
-        roots = ['../../../datasets/LDC_txt/train/', '../../../datasets/LDC_txt/dev/', '../../../datasets/LDC_txt/test/']
+        roots = ['../../../datasets/LDC_txt/train/',
+                 '../../../datasets/LDC_txt/dev/', '../../../datasets/LDC_txt/test/']
     elif cfg.dataset == "IED":
-        roots = ['../../../datasets/Wiki_IED_txt/train/', '../../../datasets/Wiki_IED_txt/dev/', '../../../datasets/Wiki_IED_txt/test/']
+        roots = ['../../../datasets/Wiki_IED_txt/train/',
+                 '../../../datasets/Wiki_IED_txt/dev/', '../../../datasets/Wiki_IED_txt/test/']
 
     dataset_train = GraphDataset(roots[0], mode='train')
-    train_loader = DataLoader(dataset_train, batch_size=cfg.batch_size, shuffle=True)
+    train_loader = DataLoader(
+        dataset_train, batch_size=cfg.batch_size, shuffle=True)
 
     dev_loaders = []
     test_loaders = []
@@ -65,7 +68,8 @@ def get_dataloader(split_name, cfg) -> DataLoader:
         dataset_dev = GraphDataset(roots[1], mode='eval', sample_ratio=ratio)
         dataset_test = GraphDataset(roots[2], mode='eval', sample_ratio=ratio)
         dev_loaders.append(DataLoader(dataset_dev, batch_size=cfg.batch_size))
-        test_loaders.append(DataLoader(dataset_test, batch_size=cfg.batch_size))
+        test_loaders.append(DataLoader(
+            dataset_test, batch_size=cfg.batch_size))
 
     cfg['num_event_types'] = dataset_train.num_event_types
     cfg['num_entity_types'] = dataset_train.num_entity_types
@@ -96,7 +100,7 @@ def train(cfg, task) -> GraphEmbedding:
             save_weights_only=True,
             every_n_epochs=cfg.every_n_epochs,
         )
-        #callbacks.append(checkpoint_callback)
+        callbacks.append(checkpoint_callback)
 
     if cfg.early_stopping:
         early_stop_callback = EarlyStopping(

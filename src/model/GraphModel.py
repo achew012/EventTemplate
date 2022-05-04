@@ -15,6 +15,7 @@ from common.utils import *
 from model.EventGraph import EventGraph
 import ipdb
 
+
 class GraphEmbedding(pl.LightningModule):
     """Pytorch Lightning module. It wraps up the model, data loading and training code"""
 
@@ -24,7 +25,8 @@ class GraphEmbedding(pl.LightningModule):
         self.cfg = cfg
         self.task = task
         self.clearml_logger = self.task.get_logger()
-        self.model = EventGraph(cfg.num_event_types, cfg.num_entity_types,  cfg.num_rels, cfg.n_hidden, cfg.emb_dim)
+        self.model = EventGraph(
+            cfg.num_event_types, cfg.num_entity_types,  cfg.num_rels, cfg.n_hidden, cfg.emb_dim)
         self.remove = RemoveIsolatedNodes()
         self.metrics = {}
 
@@ -57,7 +59,7 @@ class GraphEmbedding(pl.LightningModule):
 
     def training_step(self, batch, batch_nb):
         """Call the forward pass then return loss"""
-        loss, output = self.forward(*batch)
+        loss, output = self.forward(batch)
         return {"loss": loss, 'output': output}
 
     def training_epoch_end(self, outputs):
@@ -67,12 +69,11 @@ class GraphEmbedding(pl.LightningModule):
         self.log("train_loss", sum(total_loss) / len(total_loss))
 
     def eval_step(self, batch):
-        batch_correct=0
-        for test_graph in batch:
-            sub_g, bfs_list, sample_index, g = test_graph
-            ipdb.set_trace()
-            #sub_g = sub_g.to_data_list()[0]
-            #g = g.to_data_list()[0]
+        batch_correct = 0
+        for sample in batch:
+            sub_g, bfs_list, sample_index, g = sample
+            sub_g = sub_g.to_data_list()[0]
+            g = g.to_data_list()[0]
             g = g.to_homogeneous()
             sub_g = sub_g.to_homogeneous()
             sub_g = self.remove(sub_g)
@@ -85,40 +86,31 @@ class GraphEmbedding(pl.LightningModule):
                 batch_correct += 1
         return batch_correct
 
-    def validation_step(self, batch, batch_nb, dataloader_idx):        
+    def validation_step(self, batch, batch_nb, dataloader_idx):
         """Call the forward pass then return loss"""
-        batch_matches = self.eval_step(batch)        
-        return {dataloader_idx: {batch_nb: batch_matches}}
+        batch_matches = self.eval_step(batch)
+        return {'matches': batch_matches}
 
     def validation_epoch_end(self, outputs):
-        hit_rate = []
-        loss = []
-
-        ipdb.set_trace()
-
-        for dataloader in outputs:
-            for batch in dataloader:
-                batch_hit_k_normalized = batch["hit_k_normalized"]
-                batch_loss = batch["loss"]
-                loss.append(batch_loss)
-                if batch_hit_k_normalized:
-                    hit_rate.append(batch_hit_k_normalized)
-        self.log("val_loss", torch.tensor(loss).mean())
+        for idx, dataload in enumerate(outputs):
+            correct = 0
+            n = len(dataload)
+            for batch_output in dataload:
+                correct += batch_output["matches"]
+            self.log(f"val_accuracy_{idx}", correct/n)
 
     def test_step(self, batch, batch_nb, dataloader_idx):
         """Call the forward pass then return loss"""
-        loss, output = self(batch)
-        pred = output.max(dim=1)[1]
-        return {"loss": loss, "batch": batch, "pred": pred}
+        batch_matches = self.eval_step(batch)
+        return {'matches': batch_matches}
 
     def test_epoch_end(self, outputs):
-        correct = 0
-        num_batches = len(outputs)
-        for dataloader in outputs:
-            for batch in dataloader:
-                pred = batch["pred"]
-                correct += pred.eq(batch['batch'].y.view(-1)).sum().item()
-        self.log("accuracy", correct / (num_batches*self.cfg.batch_size))
+        for idx, dataload in enumerate(outputs):
+            correct = 0
+            n = len(dataload)
+            for batch_output in dataload:
+                correct += batch_output["matches"]
+            self.log(f"test_accuracy_{idx}", correct/n)
 
     def configure_optimizers(self):
         """Configure the optimizer and the learning rate scheduler"""
