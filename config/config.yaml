@@ -8,11 +8,11 @@ n_hidden: 16
 emb_dim: 32
 nargs_ratio: [0.2, 0.4, 0.6, 0.8]
 num_epochs: 100
-batch_size: 1
-every_n_epochs: 10
+batch_size: 4
+every_n_epochs: 50
 debug: False
 early_stopping: False
-checkpointing: False
+checkpointing: True
 queue: compute
 remote: False
 dataset: LDC

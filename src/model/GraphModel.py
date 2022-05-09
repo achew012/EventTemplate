@@ -32,28 +32,18 @@ class GraphEmbedding(pl.LightningModule):
 
     def forward(self, batch):
 
-        sub_g, bfs_list, sample_index, g = batch
+        sub_g, target = batch
 
-        # torch_geometric.Batch -> torch_geometric.HeteroData
-        sub_g = sub_g.to_data_list()[0]
-        g = g.to_data_list()[0]
-
-        g = g.to_homogeneous()
-        sub_g = sub_g.to_homogeneous()
-
-        # the difference between sub_g and g is that all the edges connected to the sampled event, events
-        # afterwards, and their arguments in sub_g are removed. So there is a bunch of isolated nodes in sub_g.
         sub_g = self.remove(sub_g)
 
-        for index, e in enumerate(bfs_list):
-            bfs_list[index] = e.item()
-
-        output = self.model(sub_g, bfs_list, sample_index)
+        output = self.model(sub_g)
 
         # get the real type of the event to be predicted
-        target = g.x[bfs_list[sample_index]]
+        target = target.T
         target = target.long() - 1
+        target = target.squeeze(0)
 
+        # get the real type of the event to be predicted
         loss = nn.CrossEntropyLoss()(output, target)
         return loss, output
 
@@ -69,48 +59,58 @@ class GraphEmbedding(pl.LightningModule):
         self.log("train_loss", sum(total_loss) / len(total_loss))
 
     def eval_step(self, batch):
+        n = 0
         batch_correct = 0
         for sample in batch:
-            sub_g, bfs_list, sample_index, g = sample
-            sub_g = sub_g.to_data_list()[0]
-            g = g.to_data_list()[0]
-            g = g.to_homogeneous()
-            sub_g = sub_g.to_homogeneous()
+            sub_g, target = sample
+            n += len(target)  # number of graphs in 1 batch
             sub_g = self.remove(sub_g)
-            for index, e in enumerate(bfs_list):
-                bfs_list[index] = e.item()
-            target = g.x[bfs_list[sample_index]]
-            target = target.int() - 1
-            pred = self.model.test(sub_g, target)
-            if pred:
-                batch_correct += 1
-        return batch_correct
+            target = target.T
+            target = target.long() - 1
+            target = target.squeeze(0)
+            preds = self.model.test(sub_g, target)
+            batch_correct += torch.sum(preds).detach().item()  # count the number of 'True' in preds
+        return batch_correct/n
 
     def validation_step(self, batch, batch_nb, dataloader_idx):
         """Call the forward pass then return loss"""
-        batch_matches = self.eval_step(batch)
-        return {'matches': batch_matches}
+        batch_accuracy = self.eval_step(batch)
+        return {'batch_accuracy': batch_accuracy}
 
     def validation_epoch_end(self, outputs):
+        best_accuracy = 0
         for idx, dataload in enumerate(outputs):
-            correct = 0
-            n = len(dataload)
+            accuracy = 0
+            num_batches = len(dataload)
             for batch_output in dataload:
-                correct += batch_output["matches"]
-            self.log(f"val_accuracy_{idx}", correct/n)
+                accuracy += batch_output["batch_accuracy"]
+
+            accuracy=accuracy/num_batches
+
+            if accuracy>best_accuracy:
+                best_accuracy=accuracy
+
+        self.log(f"best_val_accuracy", best_accuracy)
 
     def test_step(self, batch, batch_nb, dataloader_idx):
         """Call the forward pass then return loss"""
-        batch_matches = self.eval_step(batch)
-        return {'matches': batch_matches}
+        batch_accuracy = self.eval_step(batch)
+        return {'batch_accuracy': batch_accuracy}
 
     def test_epoch_end(self, outputs):
+        best_accuracy = 0
         for idx, dataload in enumerate(outputs):
-            correct = 0
-            n = len(dataload)
+            accuracy = 0
+            num_batches = len(dataload)
             for batch_output in dataload:
-                correct += batch_output["matches"]
-            self.log(f"test_accuracy_{idx}", correct/n)
+                accuracy += batch_output["batch_accuracy"]
+
+            accuracy=accuracy/num_batches
+
+            if accuracy>best_accuracy:
+                best_accuracy=accuracy
+
+        self.log(f"best_test_accuracy", best_accuracy)
 
     def configure_optimizers(self):
         """Configure the optimizer and the learning rate scheduler"""
@@ -120,9 +120,9 @@ class GraphEmbedding(pl.LightningModule):
             "optimizer": optimizer,
             "lr_scheduler": {
                 "scheduler": torch.optim.lr_scheduler.ReduceLROnPlateau(
-                    optimizer, "min", verbose=True
+                    optimizer, "max", verbose=True
                 ),
-                "monitor": "train_loss",
+                "monitor": "best_val_accuracy",
                 "frequency": 1,
             },
         }

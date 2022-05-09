@@ -58,15 +58,15 @@ def get_dataloader(split_name, cfg) -> DataLoader:
         roots = ['../../../datasets/Wiki_IED_txt/train/',
                  '../../../datasets/Wiki_IED_txt/dev/', '../../../datasets/Wiki_IED_txt/test/']
 
-    dataset_train = GraphDataset(roots[0], mode='train')
+    dataset_train = GraphDataset(roots[0], mode='train', form='homo')
     train_loader = DataLoader(
         dataset_train, batch_size=cfg.batch_size, shuffle=True)
 
     dev_loaders = []
     test_loaders = []
     for ratio in cfg.nargs_ratio:
-        dataset_dev = GraphDataset(roots[1], mode='eval', sample_ratio=ratio)
-        dataset_test = GraphDataset(roots[2], mode='eval', sample_ratio=ratio)
+        dataset_dev = GraphDataset(roots[1], mode='eval', form='homo', sample_ratio=ratio)
+        dataset_test = GraphDataset(roots[2], mode='eval', form='homo', sample_ratio=ratio)
         dev_loaders.append(DataLoader(dataset_dev, batch_size=cfg.batch_size))
         test_loaders.append(DataLoader(
             dataset_test, batch_size=cfg.batch_size))
@@ -94,8 +94,8 @@ def train(cfg, task) -> GraphEmbedding:
         checkpoint_callback = ModelCheckpoint(
             dirpath="./",
             filename="best_event_graph_model",
-            monitor="val_loss",
-            mode="min",
+            monitor="best_val_accuracy",
+            mode="max",
             save_top_k=1,
             save_weights_only=True,
             every_n_epochs=cfg.every_n_epochs,
@@ -104,7 +104,7 @@ def train(cfg, task) -> GraphEmbedding:
 
     if cfg.early_stopping:
         early_stop_callback = EarlyStopping(
-            monitor="val_loss", min_delta=0.00, patience=5, verbose=True, mode="min"
+            monitor="best_val_accuracy", min_delta=0.00, patience=5, verbose=True, mode="max"
         )
         callbacks.append(early_stop_callback)
 
