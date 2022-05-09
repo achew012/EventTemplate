@@ -122,7 +122,7 @@ class GraphEmbedding(pl.LightningModule):
                 "scheduler": torch.optim.lr_scheduler.ReduceLROnPlateau(
                     optimizer, "min", verbose=True
                 ),
-                "monitor": "val_loss",
+                "monitor": "train_loss",
                 "frequency": 1,
             },
         }

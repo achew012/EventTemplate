@@ -3,3 +3,4 @@ src/__pycache__/
 outputs/
 __pycache__/
 datasets/
+dataset.tgz

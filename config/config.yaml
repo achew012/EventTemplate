@@ -14,7 +14,7 @@ debug: False
 early_stopping: False
 checkpointing: False
 queue: compute
-remote: True
+remote: False
 dataset: LDC
 trained_model_path: 
 train: True
