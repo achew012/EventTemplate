@@ -114,4 +114,4 @@ class EventGraph(nn.Module):
                 g_i = torch.cat((g_i, g_i_temp))
         out = self.event_lin(g_i)
         pred = torch.argmax(out, 1)
-        return pred == target
+        return pred

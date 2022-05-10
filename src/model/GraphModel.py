@@ -70,9 +70,11 @@ class GraphEmbedding(pl.LightningModule):
             target = target.T
             target = target.long() - 1
             target = target.squeeze(0)
-            preds = self.model.test(sub_g, target)
-            ipdb.set_trace()
-            batch_correct += torch.sum(preds).detach().item()  # count the number of 'True' in preds
+            pred = self.model.test(sub_g, target)
+            matches = pred == target
+            batch_correct += torch.sum(matches).detach().item()  # count the number of 'True' in preds
+            #ipdb.set_trace()
+
         return batch_correct/n
 
     def validation_step(self, batch:List, batch_nb: int, dataloader_idx: int):
