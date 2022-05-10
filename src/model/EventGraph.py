@@ -71,9 +71,11 @@ class EventGraph(nn.Module):
         # get node embeddings according to their types
         # g.x stores the type id of each node
         feat_idx = g.x.int().T
-        feat = self.node_emb(feat_idx)
+        # map feature index to feature embeddings
+        feat = self.node_emb(feat_idx)        
         feat = feat.squeeze(0)
 
+        # apply rgcn convolution layer to feat embeddings
         h = F.relu(self.conv(feat, g.edge_index, g.edge_type))
 
         # paper 3.3, get current graph representation g_i for each graph in a batch

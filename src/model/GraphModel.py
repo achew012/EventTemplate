@@ -47,18 +47,20 @@ class GraphEmbedding(pl.LightningModule):
         loss = nn.CrossEntropyLoss()(output, target)
         return loss, output
 
-    def training_step(self, batch, batch_nb):
+    def training_step(self, batch: List, batch_nb: int):
         """Call the forward pass then return loss"""
-        loss, output = self.forward(batch)
+        #should only b a single element in batch list
+        for sample in batch:
+            loss, output = self(sample)
         return {"loss": loss, 'output': output}
 
-    def training_epoch_end(self, outputs):
+    def training_epoch_end(self, outputs: List):
         total_loss = []
         for batch in outputs:
             total_loss.append(batch["loss"])
         self.log("train_loss", sum(total_loss) / len(total_loss))
 
-    def eval_step(self, batch):
+    def eval_step(self, batch: List):
         n = 0
         batch_correct = 0
         for sample in batch:
@@ -69,15 +71,16 @@ class GraphEmbedding(pl.LightningModule):
             target = target.long() - 1
             target = target.squeeze(0)
             preds = self.model.test(sub_g, target)
+            ipdb.set_trace()
             batch_correct += torch.sum(preds).detach().item()  # count the number of 'True' in preds
         return batch_correct/n
 
-    def validation_step(self, batch, batch_nb, dataloader_idx):
+    def validation_step(self, batch:List, batch_nb: int, dataloader_idx: int):
         """Call the forward pass then return loss"""
         batch_accuracy = self.eval_step(batch)
         return {'batch_accuracy': batch_accuracy}
 
-    def validation_epoch_end(self, outputs):
+    def validation_epoch_end(self, outputs: List):
         best_accuracy = 0
         for idx, dataload in enumerate(outputs):
             accuracy = 0
@@ -92,12 +95,12 @@ class GraphEmbedding(pl.LightningModule):
 
         self.log(f"best_val_accuracy", best_accuracy)
 
-    def test_step(self, batch, batch_nb, dataloader_idx):
+    def test_step(self, batch: List, batch_nb: int, dataloader_idx: int):
         """Call the forward pass then return loss"""
         batch_accuracy = self.eval_step(batch)
         return {'batch_accuracy': batch_accuracy}
 
-    def test_epoch_end(self, outputs):
+    def test_epoch_end(self, outputs: List):
         best_accuracy = 0
         for idx, dataload in enumerate(outputs):
             accuracy = 0
