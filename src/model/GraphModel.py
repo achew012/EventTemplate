@@ -13,10 +13,11 @@ from clearml import Dataset as ClearML_Dataset
 from torch_geometric.transforms import RemoveIsolatedNodes
 from common.utils import *
 from model.EventGraph import EventGraph
+from model.SingleProp import SingleProp
 import ipdb
 
 
-class GraphEmbedding(pl.LightningModule):
+class GraphModel(pl.LightningModule):
     """Pytorch Lightning module. It wraps up the model, data loading and training code"""
 
     def __init__(self, cfg, task):
@@ -36,6 +37,8 @@ class GraphEmbedding(pl.LightningModule):
 
         sub_g = self.remove(sub_g)
 
+        ipdb.set_trace()
+
         output = self.model(sub_g)
 
         # get the real type of the event to be predicted
@@ -49,7 +52,7 @@ class GraphEmbedding(pl.LightningModule):
 
     def training_step(self, batch: List, batch_nb: int):
         """Call the forward pass then return loss"""
-        #should only b a single element in batch list
+        # should only b a single element in batch list
         for sample in batch:
             loss, output = self(sample)
         return {"loss": loss, 'output': output}
@@ -72,12 +75,13 @@ class GraphEmbedding(pl.LightningModule):
             target = target.squeeze(0)
             pred = self.model.test(sub_g, target)
             matches = pred == target
-            batch_correct += torch.sum(matches).detach().item()  # count the number of 'True' in preds
-            #ipdb.set_trace()
+            # count the number of 'True' in preds
+            batch_correct += torch.sum(matches).detach().item()
+            # ipdb.set_trace()
 
         return batch_correct/n
 
-    def validation_step(self, batch:List, batch_nb: int, dataloader_idx: int):
+    def validation_step(self, batch: List, batch_nb: int, dataloader_idx: int):
         """Call the forward pass then return loss"""
         batch_accuracy = self.eval_step(batch)
         return {'batch_accuracy': batch_accuracy}
@@ -90,10 +94,10 @@ class GraphEmbedding(pl.LightningModule):
             for batch_output in dataload:
                 accuracy += batch_output["batch_accuracy"]
 
-            accuracy=accuracy/num_batches
+            accuracy = accuracy/num_batches
 
-            if accuracy>best_accuracy:
-                best_accuracy=accuracy
+            if accuracy > best_accuracy:
+                best_accuracy = accuracy
 
         self.log(f"best_val_accuracy", best_accuracy)
 
@@ -110,10 +114,10 @@ class GraphEmbedding(pl.LightningModule):
             for batch_output in dataload:
                 accuracy += batch_output["batch_accuracy"]
 
-            accuracy=accuracy/num_batches
+            accuracy = accuracy/num_batches
 
-            if accuracy>best_accuracy:
-                best_accuracy=accuracy
+            if accuracy > best_accuracy:
+                best_accuracy = accuracy
 
         self.log(f"best_test_accuracy", best_accuracy)
 

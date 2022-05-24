@@ -13,7 +13,7 @@ from clearml import Task, StorageManager, Dataset as ClearML_Dataset
 
 
 from data.data import GraphDataset
-from model.GraphModel import GraphEmbedding
+from model.GraphModel import GraphModel
 from torch_geometric.data import DenseDataLoader, DataLoader
 #from pytorch_lightning.trainer.supporters import CombinedLoader
 
@@ -65,8 +65,10 @@ def get_dataloader(split_name, cfg) -> DataLoader:
     dev_loaders = []
     test_loaders = []
     for ratio in cfg.nargs_ratio:
-        dataset_dev = GraphDataset(roots[1], mode='eval', form='homo', sample_ratio=ratio)
-        dataset_test = GraphDataset(roots[2], mode='eval', form='homo', sample_ratio=ratio)
+        dataset_dev = GraphDataset(
+            roots[1], mode='eval', form='homo', sample_ratio=ratio)
+        dataset_test = GraphDataset(
+            roots[2], mode='eval', form='homo', sample_ratio=ratio)
         dev_loaders.append(DataLoader(dataset_dev, batch_size=cfg.batch_size))
         test_loaders.append(DataLoader(
             dataset_test, batch_size=cfg.batch_size))
@@ -87,7 +89,7 @@ def get_dataloader(split_name, cfg) -> DataLoader:
         return cfg, train_loader
 
 
-def train(cfg, task) -> GraphEmbedding:
+def train(cfg, task) -> GraphModel:
     callbacks = []
 
     if cfg.checkpointing:
@@ -111,7 +113,7 @@ def train(cfg, task) -> GraphEmbedding:
     cfg, train_loader = get_dataloader("train", cfg)
     cfg, val_loaders = get_dataloader("val", cfg)
 
-    model = GraphEmbedding(cfg, task)
+    model = GraphModel(cfg, task)
 
     trainer = pl.Trainer(
         gpus=cfg.gpu,
@@ -165,7 +167,7 @@ def hydra_main(cfg) -> float:
         if cfg.trained_model_path:
             trained_model_path = StorageManager.get_local_copy(
                 cfg.trained_model_path)
-            model = GraphEmbedding.load_from_checkpoint(
+            model = GraphModel.load_from_checkpoint(
                 trained_model_path, cfg=cfg, task=task
             )
         if model:
